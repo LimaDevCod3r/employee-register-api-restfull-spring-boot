@@ -2,6 +2,8 @@ package com.exemple.employee_register.employee.Controllers;
 
 import com.exemple.employee_register.employee.Models.EmployeeModel;
 import com.exemple.employee_register.employee.Services.EmployeeService;
+import com.exemple.employee_register.exceptions.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +29,11 @@ public class EmployeeControllers {
 
     // @PathVariable recebe valores diretamente da URL como parâmetros
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeModel> findEmployeeById(@PathVariable UUID id) {
-        return employeeService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> findEmployeeById(@PathVariable UUID id) {
+
+        EmployeeModel employee = employeeService.findById(id);
+        return ResponseEntity.ok(employee);
+
     }
 
 
